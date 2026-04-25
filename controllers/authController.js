@@ -35,7 +35,7 @@ const registerController = async (req, res) => {
         console.error("Error occurred while registering user:", error);
         res.status(500).send({
             success: false,
-            message: "Error occurred while registering user"
+            message: error || "Error occurred while registering user"
         });
     }
 }
