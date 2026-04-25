@@ -4,11 +4,34 @@ const registerController = async (req, res) => {
     try {
         const { username, email, password, phone_no, address } = req.body;
         console.log("Get the details of Data:",username, email, password, phone_no, address);
-        if (!username || !email || !password || !phone_no || !address) {
-            console.log("Missing required fields");
+        if (!username){
+            return res.status(400).send({
+                    success: false,
+                    message: "Please Enter Username"
+                });
+        }
+        if (!email) {
             return res.status(400).send({
                 success: false,
-                message: "Please fill all fields"
+                message: "Please Enter Email"
+            });
+        }
+        if (!password) {
+            return res.status(400).send({
+                success: false,
+                message: "Please Enter Password"
+            });
+        }
+        if (!phone_no) {
+            return res.status(400).send({
+                success: false,
+                message: "Please Enter Phone Number"
+            });
+        }
+        if (!address) {
+            return res.status(400).send({
+                success: false,
+                message: "Please Enter Address"
             });
         }
         // check user 
@@ -26,7 +49,7 @@ const registerController = async (req, res) => {
         console.log("Creating new user started in sql...");
         // create a new user 
         const user = await pool.query('INSERT INTO users (username, email, password, phone_no, address) VALUES ($1, $2, $3, $4, $5) RETURNING *', [username, email, password, phone_no, address]);
-        console.log("User Entry in SQL query:", user);
+        // console.log("User Entry in SQL query:", user);
         res.status(200).send({
             success: true,
             message: "User registered successfully"
